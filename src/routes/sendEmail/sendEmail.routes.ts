@@ -1,6 +1,7 @@
 import { Router, Request, Response } from "express";
 import { sendMail } from "./mailer";
 import { body, validationResult } from "express-validator";
+import morgan from "morgan";
 
 const router = Router();
 
@@ -12,6 +13,13 @@ interface FormData {
   subject: string;
   message: string;
 }
+
+// logs
+router.use(
+  morgan(
+    ":method :url :status :res[content-length] - :response-time ms :remote-addr :user-agent"
+  )
+);
 
 // POST-Route for send-mail with XSS protection
 router.post(
