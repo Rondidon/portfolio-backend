@@ -3,7 +3,6 @@ import dotenv from "dotenv";
 
 dotenv.config(); // loads .env-file
 
-// Funktion zum Senden von E-Mails
 export const sendMail = async (
   name: string,
   email: string,
