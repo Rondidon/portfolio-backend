@@ -1,7 +1,4 @@
 import nodemailer from "nodemailer";
-import dotenv from "dotenv";
-
-dotenv.config(); // loads .env-file
 
 export const sendMail = async (
   name: string,

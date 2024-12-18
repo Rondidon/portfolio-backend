@@ -27,6 +27,7 @@ router.post(
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       res.status(400).json({ success: false, error: "error-validation" });
+      console.error("Error in POST send-mail: ", "error-validation");
       return;
     }
 
@@ -35,6 +36,7 @@ router.post(
     try {
       await sendMail(name, email, phoneNumber, subject, message);
       res.status(200).json({ success: true, message: "success" });
+      console.log("Message in POST send-mail", "success");
     } catch (error) {
       console.error("Error in POST send-mail: ", error);
       res.status(500).json({ success: false, error: "error-internal" });
