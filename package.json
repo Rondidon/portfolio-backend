@@ -2,7 +2,7 @@
   "name": "portfolio-backend",
   "version": "1.0.0",
   "description": "Backend of the portfolio project",
-  "main": "dist/server.ts",
+  "main": "dist/server.js",
   "scripts": {
     "build": "npx tsc",
     "start": "node dist/server.js",
