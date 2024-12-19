@@ -12,6 +12,7 @@ interface FormData {
   phoneNumber: string;
   subject: string;
   message: string;
+  sendToRecipient: boolean;
 }
 
 // logs
@@ -39,10 +40,24 @@ router.post(
       return;
     }
 
-    const { name, email, phoneNumber, subject, message }: FormData = req.body;
+    const {
+      name,
+      email,
+      phoneNumber,
+      subject,
+      message,
+      sendToRecipient,
+    }: FormData = req.body;
 
     try {
-      await sendMail(name, email, phoneNumber, subject, message);
+      await sendMail(
+        name,
+        email,
+        phoneNumber,
+        subject,
+        message,
+        sendToRecipient
+      );
       res.status(200).json({ success: true, message: "success" });
       console.log("Message in POST send-mail", "success");
     } catch (error) {

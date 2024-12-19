@@ -5,10 +5,13 @@ export const sendMail = async (
   email: string,
   phoneNumber: string | undefined,
   subject: string,
-  message: string
+  message: string,
+  sendToRecipient: boolean
 ): Promise<void> => {
   const transporter = nodemailer.createTransport({
-    service: process.env.EMAIL_SERVICE,
+    host: process.env.EMAIL_SERVICE,
+    port: Number(process.env.EMAIL_PORT),
+    secure: false,
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS,
@@ -16,13 +19,25 @@ export const sendMail = async (
   });
 
   const mailOptions = {
-    from: email,
+    from: process.env.EMAIL_USER,
     to: process.env.EMAIL_USER,
-    subject: `Neue Nachricht: ${subject}`,
+    cc: sendToRecipient ? email : undefined,
+    subject: `${subject}`,
     text: `Name: ${name}\nEmail: ${email}\n${
-      phoneNumber ? `Telefonnummer: ${phoneNumber}\n` : ""
-    }Nachricht: ${message}`,
+      phoneNumber ? `Tel: ${phoneNumber}\n` : ""
+    }\n\n${message}`,
   };
 
-  await transporter.sendMail(mailOptions);
+  try {
+    // Sende die E-Mail
+    await transporter.sendMail(mailOptions);
+    console.log(
+      `✅ Email successfully sent to: ${process.env.EMAIL_USER}${
+        sendToRecipient ? ` (cc: ${email})` : ""
+      }`
+    );
+  } catch (error) {
+    console.error(`❌ Error sending email:`, error);
+    throw error;
+  }
 };
